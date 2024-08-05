@@ -1,59 +1,46 @@
 import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar } from '@mui/material'
 import Home from './home/home'
 import Me from './me/me';
+import Communities from './communities/communities';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home/>
-  },
-  {
-    path: "/me",
-    element: <Me/>
-  },
-]);
+import Navigation from './navigation';
 
 function App() {
-  const {loginWithRedirect, isAuthenticated, isLoading, user, logout, getAccessTokenSilently} = useAuth0();
+  const {loginWithRedirect, isAuthenticated, user, logout, getAccessTokenSilently} = useAuth0();
+
   getAccessTokenSilently().then(r => console.log(r))
-  const drawerListItems = [
-    {'page': 'Home', 'path': '/'},
-    {'page': 'Me', 'path': '/me'},
-    {'page': 'Communities', 'path': '/communities'},
-  ];
+  
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: 
+      <>
+        <Navigation user={user} isAuthenticated={isAuthenticated} logout={logout} loginWithRedirect={loginWithRedirect}/>
+        <Home/>
+      </>
+    },
+    {
+      path: "/me",
+      element: 
+      <>
+        <Navigation user={user} isAuthenticated={isAuthenticated} logout={logout} loginWithRedirect={loginWithRedirect}/>
+        <Me user={user} isAuthenticated={isAuthenticated} loginWithRedirect={loginWithRedirect}/>
+      </>
+    },
+    {
+      path: "/communities",
+      element:
+      <>
+        <Navigation user={user} isAuthenticated={isAuthenticated} logout={logout} loginWithRedirect={loginWithRedirect}/>
+        <Communities/>
+      </>
+    },
+  ]);
 
   return (
     <>
-    <Drawer variant='permanent' open>
-      <Toolbar/>
-      <div>{user?.name}</div>
-      <Divider/>
-      <List>
-        {drawerListItems.map((item, _) => (
-          <ListItem>
-            <ListItemButton href={item.path}>
-                <ListItemText primary={item.page}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
-        <Divider/>
-          {isAuthenticated 
-            ? <ListItem>
-              <ListItemButton onClick={() => logout({logoutParams: {returnTo: window.location.origin}})}>
-                <ListItemText>Logout</ListItemText>
-              </ListItemButton>
-              </ListItem>
-            : <ListItem>
-              <ListItemButton onClick={() => loginWithRedirect()}>
-                <ListItemText>Login</ListItemText>
-              </ListItemButton>
-              </ListItem>}
-      </List>
-    </Drawer>
-    <RouterProvider router={router} />
+      <RouterProvider router={router}/>
     </>
   )
 }
