@@ -1,5 +1,5 @@
-import { Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar } from '@mui/material'
-import { Link } from 'react-router-dom';
+import { Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar, Link } from '@mui/material'
+import {Link as RouterLink} from 'react-router-dom'
 
 const Navigation = ({user, isAuthenticated, logout, loginWithRedirect}: {user: any, isAuthenticated: boolean, logout: any, loginWithRedirect: any}) => {
     const drawerListItems = [
@@ -15,7 +15,7 @@ const Navigation = ({user, isAuthenticated, logout, loginWithRedirect}: {user: a
         <Divider/>
         <List>
           {drawerListItems.map((item, _) => (
-            <Link to={item.path}>
+            <Link component={RouterLink} to={item.path} color="inherit">
                 <ListItem>
                     <ListItemButton>
                         <ListItemText>{item.page}</ListItemText>
