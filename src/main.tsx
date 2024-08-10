@@ -4,7 +4,6 @@ import App from './App.tsx'
 import './index.css'
 import { createTheme, ThemeProvider } from '@mui/material'
 import { Auth0Provider } from '@auth0/auth0-react'
-import { BrowserRouter } from 'react-router-dom'
 
 const authDomain = import.meta.env.VITE_AUTHDOMAIN;
 const authClientId = import.meta.env.VITE_AUTHCLIENTID;

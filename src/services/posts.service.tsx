@@ -1,9 +1,15 @@
-export const getPosts = async ({token}: {token: String}) => {
-    console.log(token)
-    return await fetch("http://localhost:8000/posts",{
+import { GetPostsParams, GetPostsResponseDto } from "../types"
+
+const baseServiceUrl = import.meta.env.VITE_BASESERVICEURL;
+
+export const getPosts = async (getPostParams: GetPostsParams): Promise<GetPostsResponseDto> => {
+    console.log(getPostParams.token)
+    let response: Response = await fetch(`${baseServiceUrl}/posts`,{
         method: 'GET',
         headers: {
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${getPostParams.token}`
         }
-    })
+    });
+    
+    return await response.json();
 }
