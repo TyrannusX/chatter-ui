@@ -1,7 +1,8 @@
 import { Divider, Drawer, List, ListItem, ListItemButton, ListItemText, Toolbar, Link } from '@mui/material'
 import {Link as RouterLink} from 'react-router-dom'
+import { ChatterComponentParams } from './types';
 
-const Navigation = ({user, isAuthenticated, logout, loginWithRedirect}: {user: any, isAuthenticated: boolean, logout: any, loginWithRedirect: any}) => {
+const Navigation = (chatterComponentParams: ChatterComponentParams) => {
     const drawerListItems = [
         {'page': 'Home', 'path': '/'},
         {'page': 'Me', 'path': '/me'},
@@ -11,7 +12,7 @@ const Navigation = ({user, isAuthenticated, logout, loginWithRedirect}: {user: a
     return (
         <Drawer variant='permanent' open>
         <Toolbar/>
-        <div>{user?.name}</div>
+        <div>{chatterComponentParams.user?.name}</div>
         <Divider/>
         <List>
           {drawerListItems.map((item, _) => (
@@ -24,14 +25,14 @@ const Navigation = ({user, isAuthenticated, logout, loginWithRedirect}: {user: a
             </Link>
           ))}
           <Divider/>
-            {isAuthenticated 
+            {chatterComponentParams.isAuthenticated 
               ? <ListItem>
-                <ListItemButton onClick={() => logout({logoutParams: {returnTo: window.location.origin}})}>
+                <ListItemButton onClick={() => chatterComponentParams.logout({logoutParams: {returnTo: window.location.origin}})}>
                   <ListItemText>Logout</ListItemText>
                 </ListItemButton>
                 </ListItem>
               : <ListItem>
-                <ListItemButton onClick={() => loginWithRedirect()}>
+                <ListItemButton onClick={() => chatterComponentParams.loginWithRedirect()}>
                   <ListItemText>Login</ListItemText>
                 </ListItemButton>
                 </ListItem>}

@@ -1,3 +1,13 @@
+export class ChatterComponentParams{
+    constructor(
+        public loginWithRedirect: any,
+        public logout: any,
+        public getAccessTokenSilently: any,
+        public isAuthenticated: boolean,
+        public user: any
+    ){}
+}
+
 export class GetPostsParams{
     constructor(public token: String){}
 }
